@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Что заказать</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f4f6f8; --panel:#fff; --ink:#18212e; --ink-2:#5c6878; --line:#dfe4ea; --accent:#2f5bd3; --accent-soft:#e7edfc;
+  --green:#1f8a5b; --green-soft:#e2f4ea; --yellow:#b77d0a; --yellow-soft:#fcf1d8; --red:#c0392b; --red-soft:#fbe4e1; --black:#3a4250; --black-soft:#e7e9ec;
+  --display:'Manrope',system-ui,sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg:#11161d; --panel:#19202a; --ink:#e7ebf1; --ink-2:#99a4b4; --line:#2a333f; --accent:#7f9bff; --accent-soft:#1f2a4b;
+  --green:#4cc285; --green-soft:#16332a; --yellow:#e8b04a; --yellow-soft:#3a2e12; --red:#ef7b6c; --red-soft:#3d201c; --black:#aab3c0; --black-soft:#262d38; } }
+:root[data-theme="dark"] {
+  --bg:#11161d; --panel:#19202a; --ink:#e7ebf1; --ink-2:#99a4b4; --line:#2a333f; --accent:#7f9bff; --accent-soft:#1f2a4b;
+  --green:#4cc285; --green-soft:#16332a; --yellow:#e8b04a; --yellow-soft:#3a2e12; --red:#ef7b6c; --red-soft:#3d201c; --black:#aab3c0; --black-soft:#262d38; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 var(--body); padding:28px 16px 64px; }
+.wrap { max-width:1100px; margin:0 auto; }
+h1 { font:800 30px/1.15 var(--display); margin:0 0 6px; letter-spacing:-.01em; }
+.lead { color:var(--ink-2); max-width:70ch; margin:0 0 20px; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:16px; }
+.controls { display:flex; flex-wrap:wrap; gap:14px 22px; align-items:end; }
+label { display:flex; flex-direction:column; gap:4px; font-size:13px; color:var(--ink-2); }
+select, input[type=number] { font:15px var(--body); padding:7px 10px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); }
+button, .file { font:600 14px var(--body); padding:9px 14px; border-radius:9px; border:1px solid var(--line); background:var(--panel); color:var(--ink); cursor:pointer; }
+.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+.file input { display:none; }
+.hint { font-size:13px; color:var(--ink-2); margin-top:10px; }
+code { font:500 12.5px var(--mono); background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+.source { font-size:13px; color:var(--ink-2); margin:4px 0 12px; }
+.summary { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+.chip { padding:8px 12px; border-radius:10px; background:var(--panel); border:1px solid var(--line); font-size:14px; }
+.chip b { font:800 18px var(--display); margin-right:6px; }
+.lvl-green { background:var(--green-soft); } .lvl-yellow { background:var(--yellow-soft); } .lvl-red { background:var(--red-soft); } .lvl-black { background:var(--black-soft); }
+.tablewrap { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:14px; }
+th small { display:block; text-transform:none; letter-spacing:0; font-weight:400; font-size:11px; }
+th { text-align:left; font:600 12px var(--body); color:var(--ink-2); text-transform:uppercase; letter-spacing:.04em; padding:8px 10px; border-bottom:1px solid var(--line); white-space:nowrap; }
+td { padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+td small { display:block; color:var(--ink-2); font-size:12px; }
+tr { cursor:pointer; } tbody tr:hover { background:var(--accent-soft); }
+.stockin { width:84px; text-align:right; font:500 14px var(--mono); padding:5px 8px; border:1px solid var(--line); border-radius:7px; background:var(--bg); color:var(--ink); }
+.stockin.edited { border-color:var(--accent); background:var(--accent-soft); }
+.muted { color:var(--ink-2); font-size:13px; }
+.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.lvl { padding:3px 8px; border-radius:999px; font-size:13px; white-space:nowrap; }
+.chartbox { height:320px; }
+#chartTitle { font:700 16px var(--display); margin:0 0 8px; }
+.error { color:var(--red); font-weight:600; }
+.foot { font-size:13px; color:var(--ink-2); }
+.foot p { margin:6px 0; }
+@media (max-width:640px) { h1 { font-size:24px; } .chartbox { height:260px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Что заказать</h1>
+  <p class="lead">Загрузите продажи по товарам — модель спрогнозирует спрос на 28 дней с диапазоном, покажет, какие товары скоро закончатся, сколько и до какого числа их заказать. Всё считается в вашем браузере: файл никуда не отправляется.</p>
+
+  <div class="card">
+    <div class="controls">
+      <label class="file primary">Загрузить CSV<input type="file" id="file" accept=".csv,text/csv"></label>
+      <button id="sample">Попробовать на примере</button>
+      <label>Срок поставки, дней<input type="number" id="lead" value="3" min="1" max="14"></label>
+      <label>Уровень сервиса
+        <select id="service"><option value="0.8">80%</option><option value="0.9" selected>90%</option><option value="0.95">95%</option></select>
+      </label>
+    </div>
+    <p class="hint">Колонки: <code>date</code>, <code>sku</code>, <code>sold</code> — обязательно; <code>stock</code> (остаток на конец дня), <code>price</code>, <code>category</code> — по желанию. Нужно хотя бы 2 месяца истории. Без остатков покажу только прогноз.</p>
+    <p class="error" id="error" hidden></p>
+    <p class="hint" id="ready" hidden>Модель загружена.</p>
+  </div>
+
+  <section id="results" hidden>
+    <div class="source" id="source"></div>
+    <div class="source" id="meta"></div>
+    <div class="summary" id="summary"></div>
+    <div class="card">
+      <h2 id="chartTitle"></h2>
+      <div class="chartbox"><canvas id="chart"></canvas></div>
+    </div>
+    <p class="hint">Нажмите на строку, чтобы увидеть график товара.</p>
+    <div class="card tablewrap">
+      <table>
+        <thead><tr><th>Статус</th><th>Товар</th><th class="num">Остаток<small>можно изменить</small></th><th class="num">Спрос за 7 дн.</th><th class="num">Хватит на, дн.</th><th class="num" id="thRisk" title="Вероятность, что товар закончится раньше, чем придёт заказ, сделанный сегодня. 89% — почти наверняка закончится, 5% — скорее всего хватит.">Риск пустой полки до прихода заказа</th><th class="num" id="thOrder">Заказать, шт.</th><th>Заказать до</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="foot">
+    <p><b>Как считается статус.</b> Вероятность, что товар кончится, берётся из распределения прогноза. 🔴 — кончится до прихода поставки с вероятностью от 50%; 🟡 — за срок поставки плюс неделю с вероятностью от 10%; 🟢 — запаса хватает; ⚫ — остаток 0. «Заказать, шт.» — сколько нужно, чтобы с выбранным уровнем сервиса хватило на срок поставки плюс неделю. «Риск пустой полки» — вероятность, что товар закончится раньше, чем придёт заказ, сделанный сегодня: чем больше процент, тем срочнее. Остаток в таблице можно поменять — например, вписать свой, — и всё пересчитается.</p>
+    <p><b>Модель.</b> LightGBM, обученный на продажах Walmart (соревнование M5) только на признаках, которые есть у любого магазина: история продаж и календарь. Пример на кнопке — синтетические данные. Код и разбор — в репозитории проекта.</p>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
