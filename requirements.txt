@@ -1,0 +1,13 @@
+catboost==1.2.10
+kaggle==2.2.4
+lightgbm==4.7.0
+matplotlib==3.11.2
+neuralforecast==3.2.2
+numpy==2.5.3
+pandas==2.3.3
+pyarrow==25.0.1
+scikit-learn==1.9.1
+scipy==1.18.1
+seaborn==0.13.2
+statsforecast==2.1.1
+torch==2.14.1+cu126

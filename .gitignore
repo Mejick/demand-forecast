@@ -1,0 +1,14 @@
+data/
+.venv/
+__pycache__/
+*.parquet
+.ipynb_checkpoints/
+notes/
+**/lightning_logs/
+reports/logs/
+*.npy
+*.npz
+reports/risk_example.csv
+reports/figures/05_*.png
+reports/figures/06_*.png
+catboost_info/
