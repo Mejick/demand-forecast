@@ -1,0 +1,32 @@
+cutoff: train <= d_1913, hold-out d_1914..d_1941
+features: (25611600, 43) in 189s
+lgbm: 1311 trees, 1687s
+lgbm_noitem: 891 trees, 558s
+nhits: 145s, pred max 129.3
+
+HOLD-OUT RESULTS
+           model  WRMSSE  RMSSE_mean    MAE    bias
+      lgbm+nhits  0.7536      0.6950 1.0397 -0.0375
+            lgbm  0.7624      0.6998 1.0573 -0.0295
+           nhits  0.7630      0.6984 1.0424 -0.0455
+     lgbm_noitem  0.7669      0.7076 1.0744 -0.0176
+mean28_x_profile  0.7767      0.7130 1.0745 -0.0294
+     croston_sba  0.7777      0.7043 1.0611 -0.0502
+coverage (share of actual <= quantile): day q50=0.678, day q80=0.868, day q90=0.936, day q95=0.968, week q50=0.554, week q80=0.818, week q90=0.905, week q95=0.947
+
+INVENTORY ON HOLD-OUT
+ lead_time policy  param  fill_rate  empty_shelf_share  avg_stock_value_$
+         3  model  q=0.8      0.944              0.129         507321.812
+         3  model  q=0.9      0.971              0.067         611328.656
+         3  model q=0.95      0.983              0.038         718997.575
+         3  naive   x1.2      0.919              0.166         477463.306
+         3  naive   x1.5      0.946              0.128         563247.925
+         3  naive   x2.0      0.968              0.089         735130.679
+         3  naive   x2.5      0.979              0.064         943940.828
+         7  model  q=0.8      0.947              0.107         840013.317
+         7  model  q=0.9      0.967              0.071         931616.599
+         7  model q=0.95      0.976              0.052        1029730.897
+         7  naive   x1.2      0.929              0.147         808855.401
+         7  naive   x1.5      0.954              0.115         928463.265
+         7  naive   x2.0      0.973              0.078        1227002.869
+         7  naive   x2.5      0.980              0.063        1546183.576
